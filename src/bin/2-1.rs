@@ -22,5 +22,5 @@ fn main() {
     }
 
     dbg!(&position);
-    dbg!(position.0*position.1);
+    dbg!(position.0 * position.1);
 }

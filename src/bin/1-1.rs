@@ -5,7 +5,7 @@ fn main() {
     let mut increase = 0;
     let mut buf = String::new();
     while let Ok(len) = stdin().read_line(&mut buf) {
-        if len == 0{
+        if len == 0 {
             break;
         }
         dbg!(&buf);
@@ -16,5 +16,5 @@ fn main() {
         last = num;
         buf.clear();
     }
-    println!("{}",increase-1);
+    println!("{}", increase - 1);
 }

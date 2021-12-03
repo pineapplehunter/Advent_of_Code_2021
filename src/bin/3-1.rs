@@ -22,7 +22,7 @@ fn main() {
         buf.clear();
     }
 
-    let mut gamma:u32 = 0;
+    let mut gamma: u32 = 0;
 
     for (z, o) in count0.iter().zip(count1.iter()) {
         gamma <<= 1;
@@ -37,5 +37,5 @@ fn main() {
 
     dbg!(&epsilon);
 
-    dbg!(gamma*epsilon);
+    dbg!(gamma * epsilon);
 }
