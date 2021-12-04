@@ -1,16 +1,19 @@
-use std::io::stdin;
+use std::{
+    fs::File,
+    io::{BufRead, BufReader},
+};
 
-fn main() {
-    let mut buf = String::new();
+use anyhow::Result;
+
+const FILE_NAME: &str = "inputs/1-input.txt";
+
+fn main() -> Result<()> {
     let mut nums = Vec::new();
 
-    while let Ok(len) = stdin().read_line(&mut buf) {
-        if len == 0 {
-            break;
-        }
-        let num = buf.trim().parse::<u32>().unwrap();
+    let mut lines = BufReader::new(File::open(FILE_NAME)?).lines();
+    while let Some(Ok(line)) = lines.next() {
+        let num = line.parse::<u32>()?;
         nums.push(num);
-        buf.clear();
     }
 
     let mut last = None;
@@ -27,4 +30,6 @@ fn main() {
     }
 
     dbg!(increase);
+
+    Ok(())
 }

@@ -1,25 +1,24 @@
-use std::io::stdin;
+use anyhow::Result;
+use std::{
+    fs::File,
+    io::{BufRead, BufReader},
+};
 
-fn main() {
-    let mut buf = String::new();
+const FILE_NAME: &str = "inputs/3-input.txt";
 
+fn main() -> Result<()> {
     let mut count0 = [0; 12];
     let mut count1 = [0; 12];
 
-    while let Ok(len) = stdin().read_line(&mut buf) {
-        if len == 0 {
-            break;
-        }
-
-        let bin_str = buf.trim();
-        for (index, c) in bin_str.chars().enumerate() {
+    let mut lines = BufReader::new(File::open(FILE_NAME)?).lines();
+    while let Some(Ok(line)) = lines.next() {
+        for (index, c) in line.chars().enumerate() {
             match c {
                 '0' => count0[index] += 1,
                 '1' => count1[index] += 1,
                 _ => unreachable!(),
             }
         }
-        buf.clear();
     }
 
     let mut gamma: u32 = 0;
@@ -38,4 +37,6 @@ fn main() {
     dbg!(&epsilon);
 
     dbg!(gamma * epsilon);
+
+    Ok(())
 }

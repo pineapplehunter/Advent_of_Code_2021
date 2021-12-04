@@ -1,16 +1,18 @@
-use std::io::stdin;
+use anyhow::Result;
+use std::{
+    fs::File,
+    io::{BufRead, BufReader},
+};
 
-fn main() {
-    let mut buf = String::new();
+const FILE_NAME: &str = "inputs/2-input.txt";
+
+fn main() -> Result<()> {
     let mut position = (0, 0);
 
-    while let Ok(len) = stdin().read_line(&mut buf) {
-        if len == 0 {
-            break;
-        }
-
-        let (command, value) = buf.trim().split_once(" ").unwrap();
-        let value = value.trim().parse::<u32>().unwrap();
+    let mut lines = BufReader::new(File::open(FILE_NAME)?).lines();
+    while let Some(Ok(line)) = lines.next() {
+        let (command, value) = line.split_once(" ").unwrap();
+        let value = value.parse::<u32>()?;
 
         match command {
             "forward" => position.0 += value,
@@ -18,9 +20,10 @@ fn main() {
             "up" => position.1 -= value,
             _ => unreachable!(),
         }
-        buf.clear();
     }
 
     dbg!(&position);
     dbg!(position.0 * position.1);
+
+    Ok(())
 }

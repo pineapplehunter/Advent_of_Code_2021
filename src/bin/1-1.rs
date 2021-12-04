@@ -1,20 +1,27 @@
-use std::io::stdin;
+use std::{
+    fs::File,
+    io::{BufRead, BufReader},
+};
 
-fn main() {
-    let mut last = 0;
+use anyhow::Result;
+
+const FILE_NAME: &str = "inputs/1-input.txt";
+
+fn main() -> Result<()> {
+    let mut last = None;
     let mut increase = 0;
-    let mut buf = String::new();
-    while let Ok(len) = stdin().read_line(&mut buf) {
-        if len == 0 {
-            break;
+    let mut lines = BufReader::new(File::open(FILE_NAME)?).lines();
+    while let Some(Ok(line)) = lines.next() {
+        dbg!(&line);
+        let num: u32 = line.parse()?;
+        if let Some(last) = last {
+            if num > last {
+                increase += 1;
+            }
         }
-        dbg!(&buf);
-        let num = buf.trim().parse::<u32>().unwrap();
-        if num > last {
-            increase += 1;
-        }
-        last = num;
-        buf.clear();
+        last = Some(num);
     }
-    println!("{}", increase - 1);
+    dbg!(increase);
+
+    Ok(())
 }

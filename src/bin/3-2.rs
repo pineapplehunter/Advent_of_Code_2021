@@ -1,9 +1,11 @@
-use std::io::{stdin, Read};
+use anyhow::Result;
+use std::fs::read_to_string;
 
-fn main() {
-    let mut buf = String::new();
-    stdin().read_to_string(&mut buf).unwrap();
-    let all_inputs: Vec<&str> = buf.split('\n').collect();
+const FILE_NAME: &str = "inputs/3-input.txt";
+
+fn main() -> Result<()> {
+    let contents = read_to_string(FILE_NAME)?;
+    let all_inputs: Vec<&str> = contents.split('\n').collect();
 
     let mut count0 = [0; 12];
     let mut count1 = [0; 12];
@@ -120,4 +122,6 @@ fn main() {
     };
 
     dbg!(o2 * co2);
+
+    Ok(())
 }
